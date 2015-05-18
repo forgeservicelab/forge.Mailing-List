@@ -24,7 +24,7 @@ def _getMailList(user, passwd):
                               attrlist=['mail'])
     conn.unbind_s()
 
-    return [mail for maillist in searchres for mail in maillist]
+    return [mail for maillist in map(lambda entry: entry[1]['mail'], searchres) for mail in maillist]
 
 
 if __name__ == '__main__':
@@ -33,4 +33,4 @@ if __name__ == '__main__':
     if args['--pass']:
         args['<password>'] = getpass.getpass()
 
-    _getMailList(args['<username>'], args['<password>'])
+    print _getMailList(args['<username>'], args['<password>'])
