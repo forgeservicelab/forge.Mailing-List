@@ -20,10 +20,10 @@ def _getMailList(user, passwd):
     conn.bind_s('cn=%s,ou=accounts,dc=forgeservicelab,dc=fi' % user, passwd)
 
     return [mail for maillist in
-            c.search_s('ou=accounts,dc=forgeservicelab,dc=fi',
-                       ldap.SCOPE_ONELEVEL,
-                       filterstr='(!(|(employeeType=hidden)(employeeType=disabled)(cn=test*)(sn=service)))',
-                       attrlist=['mail'])
+            conn.search_s('ou=accounts,dc=forgeservicelab,dc=fi',
+                          ldap.SCOPE_ONELEVEL,
+                          filterstr='(!(|(employeeType=hidden)(employeeType=disabled)(cn=test*)(sn=service)))',
+                          attrlist=['mail'])
             for mail in maillist]
 
 
