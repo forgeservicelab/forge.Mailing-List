@@ -18,13 +18,13 @@ from docopt import docopt
 def _getMailList(user, passwd):
     conn = ldap.initialize('ldaps://auth.forgeservicelab.fi')
     conn.bind_s('cn=%s,ou=accounts,dc=forgeservicelab,dc=fi' % user, passwd)
+    searchres = conn.search_s('ou=accounts,dc=forgeservicelab,dc=fi',
+                              ldap.SCOPE_ONELEVEL,
+                              filterstr='(!(|(employeeType=hidden)(employeeType=disabled)(cn=test*)(sn=service)))',
+                              attrlist=['mail'])
+    conn.unbind_s()
 
-    return [mail for maillist in
-            conn.search_s('ou=accounts,dc=forgeservicelab,dc=fi',
-                          ldap.SCOPE_ONELEVEL,
-                          filterstr='(!(|(employeeType=hidden)(employeeType=disabled)(cn=test*)(sn=service)))',
-                          attrlist=['mail'])
-            for mail in maillist]
+    return [mail for maillist in searchres for mail in maillist]
 
 
 if __name__ == '__main__':
