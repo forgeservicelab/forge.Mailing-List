@@ -33,4 +33,4 @@ if __name__ == '__main__':
     if args['--pass']:
         args['<password>'] = getpass.getpass()
 
-    print _getMailList(args['<username>'], args['<password>'])
+    print ', '.join(_getMailList(args['<username>'], args['<password>']))
